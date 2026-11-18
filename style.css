@@ -4,3 +4,18 @@
 @media(max-width:850px){.movie-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.site-header{padding:0 5%}.section-wrap{padding-left:5%;padding-right:5%}.hero{padding-left:6%}.main-nav{gap:18px}}
 @media(max-width:600px){.site-header{height:66px}.menu-toggle{display:block;margin-left:auto;margin-right:15px}.main-nav{display:none;position:absolute;top:65px;left:0;right:0;background:#101010;padding:20px 6%;border-bottom:1px solid var(--line);flex-direction:column;gap:20px}.main-nav.open{display:flex}.header-cta{padding:10px 11px;font-size:10px}.hero{min-height:570px;height:78vh;max-height:650px;background-position:58% center}.hero:before{background:linear-gradient(90deg,rgba(8,8,8,.94),rgba(8,8,8,.55)),linear-gradient(0deg,rgba(8,8,8,.75),transparent 60%)}.hero-content{margin-top:-10px}.hero-content>p{font-size:13px;max-width:330px}.hero-actions{align-items:flex-start;flex-direction:column;gap:17px}.hero-bottom{font-size:8px;letter-spacing:1px}.trust-strip{justify-content:flex-start;overflow:auto;gap:25px;padding:18px 6%;white-space:nowrap}.trust-strip>div{font-size:10px}.section-wrap{padding:70px 5%}.section-heading{display:block}.section-heading>p{margin-top:14px}.catalog-tools{align-items:stretch;flex-direction:column}.search-box{width:100%}.movie-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 13px}.movie-info h3{font-size:16px}.movie-info p{font-size:9px}.buy-button{padding:8px}.seller-banner{margin:0 5% 60px;padding:35px 7%;align-items:flex-start;flex-direction:column}.seller-banner h2{font-size:37px}.site-footer{padding:25px 5%;flex-wrap:wrap}.site-footer p{order:3;width:100%;margin:0}.brand{font-size:12px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* Kiswahili movie details */
+.poster-open{display:block;width:100%;padding:0;border:0;cursor:pointer;text-align:left}
+.film-modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.82);padding:20px;align-items:center;justify-content:center}
+.film-modal.show{display:flex}
+.film-modal-panel{position:relative;display:grid;grid-template-columns:minmax(130px, .8fr) 1.2fr;gap:25px;max-width:680px;width:100%;max-height:90vh;overflow:auto;background:#151515;border:1px solid rgba(216,168,95,.3);padding:28px}
+.film-modal-close{position:absolute;right:12px;top:8px;background:transparent;border:0;color:#fff;font-size:28px;cursor:pointer}
+.detail-poster{width:100%;max-height:360px;object-fit:cover}
+.detail-copy{padding:15px 8px 8px 0}
+.detail-category{color:var(--accent);font-size:11px}
+.detail-copy h2{font:600 30px var(--serif);margin:12px 0}
+.detail-copy p{color:#c4beb5;font-size:13px;line-height:1.7}
+.detail-meta{color:var(--muted);font-size:11px;margin:18px 0}
+.detail-price{display:block;color:var(--accent);font-size:19px}
+.detail-note{border-top:1px solid var(--line);padding-top:12px;font-size:11px!important}
+@media(max-width:520px){.film-modal-panel{grid-template-columns:1fr;gap:12px;padding:22px}.detail-poster{max-height:230px;width:auto;max-width:100%;margin:auto}.detail-copy{padding:0}.detail-copy h2{font-size:25px}}
