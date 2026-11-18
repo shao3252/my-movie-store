@@ -45,6 +45,21 @@ function renderFilms() {
   emptyState.hidden = filtered.length !== 0;
   emptyState.textContent = films.length ? "Hakuna filamu iliyopatikana." : "Bado hakuna filamu zilizowekwa.";
 }
+
+async function callManualOrders(payload) {
+  const response = await fetch(SUPABASE_URL + "/functions/v1/manual-orders", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", apikey: SUPABASE_PUBLISHABLE_KEY },
+    body: JSON.stringify(payload)
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || "Imeshindikana kuwasiliana na mfumo wa oda.");
+  return result;
+}
+function paymentMethodName(value) {
+  return ({mpesa:"M-Pesa",airtel_money:"Airtel Money",tigo_pesa:"Tigo Pesa"}[value] || value);
+}
+
 function openFilmDetails(film) {
   let modal = document.getElementById("filmDetails");
   if (!modal) {
@@ -70,7 +85,98 @@ function openFilmDetails(film) {
     '<div class="detail-meta">' + escapeHtml(film.release_year || "—") + ' · ' +
     (film.duration_minutes ? escapeHtml(film.duration_minutes) + ' dakika' : 'Muda haujawekwa') + '</div>' +
     '<strong class="detail-price">' + formatPrice(film.price_tzs) + '</strong>' +
-    '<p class="detail-note">Ununuzi na upakuaji utafunguliwa baada ya malipo kuunganishwa.</p></div>';
+    '<button class="buy-button detail-buy" id="startPurchase" type="button">Nunua filamu</button>' +
+    '<div id="checkoutPanel" class="checkout-panel" hidden></div></div>';
+
+  const checkout = document.getElementById("checkoutPanel");
+  document.getElementById("startPurchase").addEventListener("click", () => {
+    checkout.hidden = false;
+    checkout.innerHTML =
+      '<form id="checkoutForm" class="checkout-form">' +
+      '<h3>Weka taarifa zako</h3>' +
+      '<label>Jina lako<input name="customer_name" required minlength="2" maxlength="100" placeholder="Jina kamili"></label>' +
+      '<label>Namba ya simu<input name="customer_phone" required inputmode="tel" placeholder="07XXXXXXXX au +2557XXXXXXXX"></label>' +
+      '<button class="buy-button" type="submit">Endelea kulipa</button><p class="checkout-message" id="checkoutMessage"></p></form>';
+    document.getElementById("startPurchase").hidden = true;
+
+    document.getElementById("checkoutForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const button = form.querySelector("button[type=submit]");
+      const message = document.getElementById("checkoutMessage");
+      button.disabled = true;
+      button.textContent = "Inatengeneza oda…";
+      message.textContent = "";
+      try {
+        const data = await callManualOrders({
+          action: "create_order",
+          movie_id: film.id,
+          customer_name: form.customer_name.value.trim(),
+          customer_phone: form.customer_phone.value.trim()
+        });
+        localStorage.setItem("mms_order_" + data.order_id, data.access_token);
+        checkout.innerHTML =
+          '<div class="payment-instructions"><h3>Oda yako imeundwa</h3>' +
+          '<p>Namba ya oda: <strong>' + escapeHtml(data.order_id) + '</strong></p>' +
+          '<p>Kiasi: <strong>' + formatPrice(data.amount_tzs) + '</strong></p>' +
+          '<p>Tuma malipo kwa <strong>' + escapeHtml(paymentMethodName(data.payment.payment_method)) + '</strong> kwenye namba:</p>' +
+          '<p class="payment-number">' + escapeHtml(data.payment.phone) + '</p>' +
+          '<p>Jina la akaunti: <strong>' + escapeHtml(data.payment.account_name) + '</strong></p>' +
+          '<p>Baada ya kutuma fedha, weka namba ya muamala hapa chini. Pakua baada ya msimamizi kuthibitisha malipo.</p>' +
+          '<form id="referenceForm" class="checkout-form"><label>Namba ya muamala<input name="reference" required minlength="4" maxlength="80" placeholder="Mfano: transaction ID"></label>' +
+          '<button class="buy-button" type="submit">Nimetuma malipo</button></form>' +
+          '<p class="checkout-message" id="paymentMessage"></p>' +
+          '<button class="buy-button check-order-button" id="checkOrderButton" type="button">Angalia hali ya oda</button></div>';
+
+        document.getElementById("referenceForm").addEventListener("submit", async referenceEvent => {
+          referenceEvent.preventDefault();
+          const referenceButton = referenceEvent.currentTarget.querySelector("button");
+          const referenceMessage = document.getElementById("paymentMessage");
+          referenceButton.disabled = true;
+          try {
+            await callManualOrders({
+              action: "submit_reference",
+              order_id: data.order_id,
+              access_token: data.access_token,
+              reference: referenceEvent.currentTarget.reference.value.trim()
+            });
+            referenceMessage.textContent = "Namba ya muamala imepokelewa. Subiri uthibitisho wa malipo.";
+          } catch (error) {
+            referenceMessage.textContent = error.message;
+          } finally {
+            referenceButton.disabled = false;
+          }
+        });
+
+        document.getElementById("checkOrderButton").addEventListener("click", async event => {
+          const checkButton = event.currentTarget;
+          const paymentMessage = document.getElementById("paymentMessage");
+          checkButton.disabled = true;
+          try {
+            const status = await callManualOrders({
+              action: "check_order",
+              order_id: data.order_id,
+              access_token: data.access_token
+            });
+            if (status.status === "paid" && status.download_url) {
+              paymentMessage.innerHTML = 'Malipo yamethibitishwa. <a href="' + escapeHtml(status.download_url) + '" target="_blank" rel="noopener">Pakua filamu sasa</a>';
+              checkButton.hidden = true;
+            } else {
+              paymentMessage.textContent = status.message || "Malipo bado hayajathibitishwa.";
+            }
+          } catch (error) {
+            paymentMessage.textContent = error.message;
+          } finally {
+            checkButton.disabled = false;
+          }
+        });
+      } catch (error) {
+        message.textContent = error.message;
+        button.disabled = false;
+        button.textContent = "Jaribu tena";
+      }
+    });
+  });
   modal.classList.add("show");
 }
 async function loadFilms() {
