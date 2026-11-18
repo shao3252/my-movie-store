@@ -138,7 +138,7 @@ function openFilmDetails(film) {
               action: "submit_reference",
               order_id: data.order_id,
               access_token: data.access_token,
-              reference: referenceEvent.currentTarget.reference.value.trim()
+              reference: String(new FormData(referenceEvent.currentTarget).get("reference") || "").trim()
             });
             referenceMessage.textContent = "Namba ya muamala imepokelewa. Subiri uthibitisho wa malipo.";
           } catch (error) {
