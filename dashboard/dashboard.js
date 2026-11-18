@@ -59,7 +59,7 @@ async function loadMovies() {
   movies=data||[]; renderMovies(); renderOverview();
 }
 async function loadOrders() {
-  const {data,error}=await supabaseClient.from("orders").select("id,customer_id,movie_id,amount_tzs,status,payment_method,provider_reference,created_at,paid_at,movies(title)").order("created_at",{ascending:false});
+  const {data,error}=await supabaseClient.from("orders").select("id,customer_id,customer_name,customer_phone,movie_id,amount_tzs,status,payment_method,provider_reference,created_at,paid_at,movies(title)").order("created_at",{ascending:false});
   if (error) { toast("Could not load orders: "+error.message); return; }
   orders=data||[]; renderOrders(); renderCustomers(); renderPayments(); renderOverview();
 }
@@ -73,7 +73,7 @@ function renderOverview() {
   $("statOrders").textContent=orders.length;
   $("statPaid").textContent=orders.filter(o=>o.status==="paid").length;
   const rows=orders.slice(0,6);
-  $("recentOrdersBody").innerHTML=rows.length?rows.map(o=>'<tr><td>'+escapeHtml(o.id.slice(0,8))+'</td><td>'+escapeHtml(o.customer_id.slice(0,8))+'</td><td>'+escapeHtml(o.movies?.title||"Movie")+'</td><td>'+money(o.amount_tzs)+'</td><td>'+statusBadge(o.status)+'</td><td>'+dateText(o.created_at)+'</td></tr>').join(""):'<tr><td colspan="6" class="table-empty">No orders have been recorded yet.</td></tr>';
+  $("recentOrdersBody").innerHTML=rows.length?rows.map(o=>'<tr><td>'+escapeHtml(o.id.slice(0,8))+'</td><td>'+escapeHtml(o.customer_name || o.customer_phone || (o.customer_id ? o.customer_id.slice(0,8) : 'Mteja'))+'</td><td>'+escapeHtml(o.movies?.title||"Movie")+'</td><td>'+money(o.amount_tzs)+'</td><td>'+statusBadge(o.status)+'</td><td>'+dateText(o.created_at)+'</td></tr>').join(""):'<tr><td colspan="6" class="table-empty">No orders have been recorded yet.</td></tr>';
 }
 function renderMovies() {
   const term=$("movieSearch").value.trim().toLowerCase();
@@ -81,15 +81,15 @@ function renderMovies() {
   $("moviesBody").innerHTML=rows.length?rows.map(m=>'<tr><td><strong>'+escapeHtml(m.title)+'</strong><br><small>'+escapeHtml(m.slug)+'</small></td><td>'+escapeHtml(m.category)+'</td><td>'+money(m.price_tzs)+'</td><td>'+statusBadge(m.is_published?"published":"unpublished")+'</td><td>'+dateText(m.created_at)+'</td><td><button class="action-button" data-edit="'+m.id+'">Edit</button><button class="action-button danger" data-delete="'+m.id+'">Delete</button></td></tr>').join(""):'<tr><td colspan="6" class="table-empty">No movies found. Use “Add movie” to create your first record.</td></tr>';
 }
 function renderOrders() {
-  $("ordersBody").innerHTML=orders.length?orders.map(o=>'<tr><td>'+escapeHtml(o.id)+'</td><td>'+escapeHtml(o.customer_id)+'</td><td>'+escapeHtml(o.movies?.title||"Movie")+'</td><td>'+money(o.amount_tzs)+'</td><td>'+escapeHtml(o.payment_method||"—")+'</td><td>'+statusBadge(o.status)+'</td><td>'+dateText(o.created_at)+'</td></tr>').join(""):'<tr><td colspan="7" class="table-empty">No orders have been recorded yet.</td></tr>';
+  $("ordersBody").innerHTML=orders.length?orders.map(o=>'<tr><td>'+escapeHtml(o.id)+'</td><td><strong>'+escapeHtml(o.customer_name||"Mteja")+'</strong><br><small>'+escapeHtml(o.customer_phone||o.customer_id||"—")+'</small></td><td>'+escapeHtml(o.movies?.title||"Filamu")+'</td><td>'+money(o.amount_tzs)+'</td><td>'+escapeHtml(o.payment_method||"—")+'</td><td>'+statusBadge(o.status)+'</td><td>'+dateText(o.created_at)+'</td></tr>').join(""):'<tr><td colspan="7" class="table-empty">Bado hakuna oda.</td></tr>';
 }
 function renderCustomers() {
   const map=new Map();
-  orders.forEach(o=>{const key=o.customer_id;const item=map.get(key)||{count:0,total:0};item.count++;if(o.status==="paid")item.total+=Number(o.amount_tzs||0);map.set(key,item);});
-  $("customersBody").innerHTML=map.size?[...map.entries()].map(([id,v])=>'<tr><td>'+escapeHtml(id)+'</td><td>'+v.count+'</td><td>'+money(v.total)+'</td></tr>').join(""):'<tr><td colspan="3" class="table-empty">No customer orders yet.</td></tr>';
+  orders.forEach(o=>{const key=o.customer_id||o.customer_phone||o.id;const item=map.get(key)||{name:o.customer_name||"Mteja",phone:o.customer_phone||o.customer_id||"—",count:0,total:0};item.count++;if(o.status==="paid")item.total+=Number(o.amount_tzs||0);map.set(key,item);});
+  $("customersBody").innerHTML=map.size?[...map.values()].map(v=>'<tr><td>'+escapeHtml(v.name)+'<br><small>'+escapeHtml(v.phone)+'</small></td><td>'+v.count+'</td><td>'+money(v.total)+'</td></tr>').join(""):'<tr><td colspan="3" class="table-empty">Bado hakuna wateja.</td></tr>';
 }
 function renderPayments() {
-  $("paymentsBody").innerHTML=orders.length?orders.map(o=>'<tr><td>'+escapeHtml(o.id.slice(0,8))+'</td><td>'+escapeHtml(o.provider_reference||"—")+'</td><td>'+escapeHtml(o.payment_method||"—")+'</td><td>'+money(o.amount_tzs)+'</td><td>'+statusBadge(o.status)+'</td></tr>').join(""):'<tr><td colspan="5" class="table-empty">No payment records yet.</td></tr>';
+  $("paymentsBody").innerHTML=orders.length?orders.map(o=>'<tr><td>'+escapeHtml(o.id.slice(0,8))+'</td><td>'+escapeHtml(o.provider_reference||"—")+'</td><td>'+escapeHtml(o.payment_method||"—")+'</td><td>'+money(o.amount_tzs)+'</td><td>'+statusBadge(o.status)+(o.status==="pending"&&o.provider_reference?'<br><button class="action-button" data-confirm-payment="'+escapeHtml(o.id)+'">Thibitisha malipo</button>':'')+'</td></tr>').join(""):'<tr><td colspan="5" class="table-empty">Bado hakuna malipo.</td></tr>';
 }
 const sectionPages={overview:"overviewPage",movies:"moviesPage",orders:"ordersPage",customers:"customersPage",payments:"paymentsPage"};
 function showSection(section) {
