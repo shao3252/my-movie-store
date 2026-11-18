@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0b0c">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Dashboard · My Movie Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="demo-banner"><span>PREVIEW MODE</span> This dashboard currently uses sample data. Admin sign-in and live store controls will be activated after secure backend setup.</div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="../"><span class="brand-mark">M</span><span>MY<span>MOVIE</span></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav">
+        <a class="side-link active" href="#overview" data-section="overview"><span>◫</span> Overview</a>
+        <a class="side-link" href="#movies" data-section="movies"><span>▣</span> Movies <b>08</b></a>
+        <a class="side-link" href="#orders" data-section="orders"><span>▤</span> Orders</a>
+        <a class="side-link" href="#customers" data-section="customers"><span>♙</span> Customers</a>
+      </nav>
+      <div class="side-label side-label-lower">STORE</div>
+      <nav class="side-nav">
+        <a class="side-link" href="#payments" data-section="payments"><span>◈</span> Payments</a>
+        <a class="side-link" href="#settings" data-section="settings"><span>⚙</span> Settings</a>
+      </nav>
+      <div class="sidebar-bottom"><div class="avatar">A</div><div><strong>Store Admin</strong><small>Preview account</small></div><span class="more">···</span></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <div class="crumb">My Movie Store <span>/</span> <strong id="pageCrumb">Overview</strong></div>
+        <a class="view-store" href="../" target="_blank" rel="noopener">View storefront ↗</a>
+      </header>
+
+      <section class="page-content" id="overview">
+        <div class="page-heading"><div><div class="overline">WEDNESDAY, YOUR STORE AT A GLANCE</div><h1>Good day, <em>Admin.</em></h1><p>Here's what's happening with your movie store.</p></div><button class="date-button" type="button">◷ &nbsp; Last 30 days</button></div>
+
+        <div class="notice"><span class="notice-icon">i</span><div><strong>Preview dashboard</strong><p>The figures and orders below are sample content to show the layout. No customer information or real payments are connected.</p></div></div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total revenue</span><span class="stat-icon">↗</span></div><strong>TZS 0</strong><small>Live sales will appear here</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Orders</span><span class="stat-icon">▤</span></div><strong>0</strong><small>Successful purchases</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Movies</span><span class="stat-icon">▣</span></div><strong>0</strong><small>Published in your store</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Customers</span><span class="stat-icon">♙</span></div><strong>0</strong><small>Registered customers</small></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel sales-panel"><div class="panel-heading"><div><h2>Sales overview</h2><p>Your revenue performance</p></div><span class="panel-period">30 DAYS</span></div><div class="chart-empty"><div class="chart-symbol">▥</div><strong>No sales data yet</strong><p>Connect the payment system to start tracking sales.</p></div></section>
+          <section class="panel quick-panel"><div class="panel-heading"><div><h2>Quick actions</h2><p>Manage your storefront</p></div></div><a class="quick-action" href="#movies" data-section="movies"><span class="quick-icon">＋</span><span><strong>Add a movie</strong><small>Upload a film to your catalogue</small></span><b>→</b></a><a class="quick-action" href="#orders" data-section="orders"><span class="quick-icon">▤</span><span><strong>View orders</strong><small>Review customer purchases</small></span><b>→</b></a><a class="quick-action" href="#settings" data-section="settings"><span class="quick-icon">⚙</span><span><strong>Store settings</strong><small>Configure your store</small></span><b>→</b></a></section>
+        </div>
+
+        <section class="panel recent-panel" id="orders"><div class="panel-heading"><div><h2>Recent orders</h2><p>Latest customer transactions</p></div><a href="#orders" class="subtle-link">View all →</a></div><div class="table-wrap"><table><thead><tr><th>ORDER</th><th>CUSTOMER</th><th>MOVIE</th><th>AMOUNT</th><th>STATUS</th></tr></thead><tbody><tr><td colspan="5" class="table-empty">No orders to display. Real orders will appear here after payment integration.</td></tr></tbody></table></div></section>
+        <div class="footer-note">MY MOVIE STORE ADMIN <span>·</span> DASHBOARD PREVIEW</div>
+      </section>
+
+      <section class="page-content placeholder-page" id="otherPage" hidden><div class="page-heading"><div><div class="overline">STORE MANAGEMENT</div><h1 id="otherTitle">Movies</h1><p id="otherDescription">Manage your store content.</p></div></div><div class="panel placeholder-panel"><div class="chart-symbol">✦</div><h2 id="placeholderTitle">Movie management is coming next</h2><p>This section will become functional after we connect secure admin authentication, the database and private movie storage.</p><button class="primary-button" id="backOverview">Back to overview</button></div></section>
+    </main>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
