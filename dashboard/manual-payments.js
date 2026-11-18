@@ -27,7 +27,7 @@ if (paymentSettingsForm) {
       account_name: document.getElementById("paymentAccountName").value.trim(),
       updated_at: new Date().toISOString()
     };
-    if (!/^(?:0[67][0-9]{8}|\\+?255[67][0-9]{8})$/.test(settings.phone)) {
+    if (!/^(?:0[67][0-9]{8}|\+?255[67][0-9]{8})$/.test(settings.phone)) {
       setMessage("paymentSettingsMessage", "Weka namba sahihi ya simu ya Tanzania.");
       button.disabled = false;
       return;
