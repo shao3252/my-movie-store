@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Discover independent movies and short films at My Movie Store.">
+  <title>My Movie Store — Films worth keeping</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="My Movie Store home"><span class="brand-mark">M</span><span>MY<span class="brand-accent">MOVIE</span></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a class="nav-link active" href="#home">Home</a>
+      <a class="nav-link" href="#movies">Explore films</a>
+      <a class="nav-link" href="#categories">Categories</a>
+    </nav>
+    <a class="header-cta" href="#movies">Browse films <span>↗</span></a>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-backdrop"></div>
+      <div class="hero-content">
+        <div class="eyebrow"><span class="eyebrow-line"></span> THE HOME OF GREAT STORIES</div>
+        <h1>Stories that<br><em>stay with you.</em></h1>
+        <p>Discover independent movies and unforgettable short films. Find your next favourite story and keep it in your collection.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#movies">Explore the collection <span>→</span></a>
+          <span class="hero-note"><span class="live-dot"></span> New stories, added regularly</span>
+        </div>
+      </div>
+      <div class="hero-bottom"><span>INDEPENDENT FILM · SHORT FILMS · CINEMA</span><span>01 — DISCOVER</span></div>
+    </section>
+
+    <section class="trust-strip" aria-label="Store features">
+      <div><span class="trust-icon">✦</span><span>Curated stories</span></div>
+      <div><span class="trust-icon">↓</span><span>Download your purchases</span></div>
+      <div><span class="trust-icon">TZ</span><span>Prices in Tanzanian shillings</span></div>
+    </section>
+
+    <section class="catalog section-wrap" id="movies">
+      <div class="section-heading">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> THE COLLECTION</div><h2>Find your <em>next film.</em></h2></div>
+        <p>Good stories deserve to be discovered.</p>
+      </div>
+      <div class="catalog-tools">
+        <div class="category-list" id="categories">
+          <button class="filter-chip selected" data-category="All">All films</button>
+          <button class="filter-chip" data-category="Drama">Drama</button>
+          <button class="filter-chip" data-category="Action">Action</button>
+          <button class="filter-chip" data-category="Comedy">Comedy</button>
+          <button class="filter-chip" data-category="Short Film">Short films</button>
+        </div>
+        <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search films..." aria-label="Search films"></label>
+      </div>
+      <div class="movie-grid" id="movieGrid" aria-live="polite"></div>
+      <div class="empty-state" id="emptyState" hidden>No films match your search. Try another title or category.</div>
+      <p class="catalog-disclaimer">Film artwork and titles shown here are demonstration content. The store owner will add films they own or are licensed to distribute.</p>
+    </section>
+
+    <section class="seller-banner">
+      <div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT FAVOURITE STORY</div><h2>Independent stories.<br><em>Worth keeping.</em></h2></div>
+      <a class="button button-light" href="#movies">Explore films <span>→</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href="#home"><span class="brand-mark">M</span><span>MY<span class="brand-accent">MOVIE</span></span></a>
+    <p>Stories worth keeping. © <span id="year"></span> My Movie Store.</p>
+    <a href="#home" class="back-top">Back to top ↑</a>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
