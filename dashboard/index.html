@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="sw">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -60,7 +60,7 @@
         </div>
         <section class="panel recent-panel">
           <div class="panel-heading"><div><h2>Recent orders</h2><p>Latest records in your database</p></div><a href="#orders" data-section="orders" class="subtle-link">View all →</a></div>
-          <div class="table-wrap"><table><thead><tr><th>ORDER</th><th>CUSTOMER ID</th><th>MOVIE</th><th>AMOUNT</th><th>STATUS</th><th>DATE</th></tr></thead><tbody id="recentOrdersBody"><tr><td colspan="6" class="table-empty">Loading orders…</td></tr></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>ORDER</th><th>MTEJA</th><th>MOVIE</th><th>AMOUNT</th><th>STATUS</th><th>DATE</th></tr></thead><tbody id="recentOrdersBody"><tr><td colspan="6" class="table-empty">Loading orders…</td></tr></tbody></table></div>
         </section>
       </section>
 
@@ -83,7 +83,17 @@
 
       <section class="page-content" id="paymentsPage" hidden>
         <div class="page-heading"><div><div class="overline">PAYMENT STATUS</div><h1>Payment <em>records.</em></h1><p>Payment integration has intentionally been left disconnected.</p></div></div>
-        <div class="notice"><span class="notice-icon">i</span><div><strong>No payment gateway connected</strong><p>Orders can be reviewed here, but this dashboard does not collect payments or mark orders as paid. We will connect a provider after the catalogue is working.</p></div></div>
+        <div class="panel payment-settings">
+          <div class="panel-heading"><div><h2>Weka taarifa za malipo</h2><p>Taarifa hizi zitaonekana kwa mteja anaponunua filamu.</p></div></div>
+          <form id="paymentSettingsForm" class="payment-settings-form">
+            <label>Mtandao wa malipo<select id="paymentMethod" required><option value="mpesa">M-Pesa</option><option value="airtel_money">Airtel Money</option><option value="tigo_pesa">Tigo Pesa</option></select></label>
+            <label>Namba ya simu ya kupokea malipo<input id="paymentPhone" type="tel" required placeholder="07XXXXXXXX"></label>
+            <label>Jina la akaunti<input id="paymentAccountName" required maxlength="100" placeholder="Jina litakaloonekana kwa mteja"></label>
+            <button class="primary-button" type="submit" id="savePaymentSettings">Hifadhi taarifa</button>
+            <p class="form-message" id="paymentSettingsMessage" role="status"></p>
+          </form>
+        </div>
+        <div class="notice"><span class="notice-icon">i</span><div><strong>Uthibitisho wa malipo ni wa mkono</strong><p>Hakikisha fedha zimeingia kwenye akaunti yako kabla ya kubonyeza “Thibitisha malipo”. Mfumo utaruhusu upakuaji baada ya hatua hiyo.</p></div></div>
         <div class="panel"><div class="table-wrap"><table><thead><tr><th>ORDER</th><th>REFERENCE</th><th>METHOD</th><th>AMOUNT</th><th>STATUS</th></tr></thead><tbody id="paymentsBody"><tr><td colspan="5" class="table-empty">Loading payment records…</td></tr></tbody></table></div></div>
       </section>
       <p class="footer-note">MY MOVIE STORE ADMIN <span>·</span> LIVE DATABASE</p>
@@ -111,6 +121,6 @@
   </div>
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.min.js"></script>
-  <script src="dashboard.js"></script>
+  <script src="dashboard.js"></script>\n  <script src="manual-payments.js"></script>
 </body>
 </html>
