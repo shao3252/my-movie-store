@@ -5,63 +5,112 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b0b0c">
   <meta name="robots" content="noindex,nofollow">
-  <title>Dashboard · My Movie Store</title>
+  <title>Admin · My Movie Store</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-  <div class="demo-banner"><span>PREVIEW MODE</span> This dashboard currently uses sample data. Admin sign-in and live store controls will be activated after secure backend setup.</div>
-  <div class="app-shell">
+  <section class="login-wrap" id="loginScreen">
+    <form class="login-card" id="loginForm">
+      <a class="brand" href="../"><span class="brand-mark">M</span><span>MY<span>MOVIE</span></span></a>
+      <div class="overline">PRIVATE ADMIN AREA</div>
+      <h1>Welcome <em>back.</em></h1>
+      <p class="muted">Sign in with your authorised store administrator account.</p>
+      <label>Email address<input id="loginEmail" type="email" autocomplete="username" required value="shaolindown3252@gmail.com"></label>
+      <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Your admin password"></label>
+      <button class="primary-button full-button" type="submit" id="loginButton">Sign in</button>
+      <p class="form-message" id="loginMessage" role="status"></p>
+      <a class="back-store" href="../">← Back to storefront</a>
+    </form>
+  </section>
+
+  <div class="app-shell" id="appShell" hidden>
     <aside class="sidebar" id="sidebar">
       <a class="brand" href="../"><span class="brand-mark">M</span><span>MY<span>MOVIE</span></span></a>
       <div class="side-label">WORKSPACE</div>
       <nav class="side-nav">
         <a class="side-link active" href="#overview" data-section="overview"><span>◫</span> Overview</a>
-        <a class="side-link" href="#movies" data-section="movies"><span>▣</span> Movies <b>08</b></a>
+        <a class="side-link" href="#movies" data-section="movies"><span>▣</span> Movies</a>
         <a class="side-link" href="#orders" data-section="orders"><span>▤</span> Orders</a>
-        <a class="side-link" href="#customers" data-section="customers"><span>♙</span> Customers</a>
       </nav>
       <div class="side-label side-label-lower">STORE</div>
       <nav class="side-nav">
+        <a class="side-link" href="#customers" data-section="customers"><span>♙</span> Customers</a>
         <a class="side-link" href="#payments" data-section="payments"><span>◈</span> Payments</a>
-        <a class="side-link" href="#settings" data-section="settings"><span>⚙</span> Settings</a>
       </nav>
-      <div class="sidebar-bottom"><div class="avatar">A</div><div><strong>Store Admin</strong><small>Preview account</small></div><span class="more">···</span></div>
+      <div class="sidebar-bottom"><div class="avatar">A</div><div><strong>Store Admin</strong><small id="adminEmail">Signed in</small></div></div>
     </aside>
-
     <main class="main-area">
       <header class="topbar">
-        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu" aria-expanded="false">☰</button>
         <div class="crumb">My Movie Store <span>/</span> <strong id="pageCrumb">Overview</strong></div>
-        <a class="view-store" href="../" target="_blank" rel="noopener">View storefront ↗</a>
+        <div class="top-actions"><a class="view-store" href="../" target="_blank" rel="noopener">View storefront ↗</a><button class="logout-button" id="logoutButton">Log out</button></div>
       </header>
 
-      <section class="page-content" id="overview">
-        <div class="page-heading"><div><div class="overline">WEDNESDAY, YOUR STORE AT A GLANCE</div><h1>Good day, <em>Admin.</em></h1><p>Here's what's happening with your movie store.</p></div><button class="date-button" type="button">◷ &nbsp; Last 30 days</button></div>
-
-        <div class="notice"><span class="notice-icon">i</span><div><strong>Preview dashboard</strong><p>The figures and orders below are sample content to show the layout. No customer information or real payments are connected.</p></div></div>
-
+      <section class="page-content" id="overviewPage">
+        <div class="page-heading"><div><div class="overline">LIVE STORE DATA</div><h1>Good day, <em>Admin.</em></h1><p>Your store activity from the connected database.</p></div><button class="date-button" id="refreshButton">↻ &nbsp; Refresh data</button></div>
+        <div class="notice"><span class="notice-icon">i</span><div><strong>Admin dashboard connected</strong><p>Movie records and orders below are loaded from your Supabase project. Payment processing is not connected yet.</p></div></div>
         <div class="stats-grid">
-          <article class="stat-card"><div class="stat-top"><span>Total revenue</span><span class="stat-icon">↗</span></div><strong>TZS 0</strong><small>Live sales will appear here</small></article>
-          <article class="stat-card"><div class="stat-top"><span>Orders</span><span class="stat-icon">▤</span></div><strong>0</strong><small>Successful purchases</small></article>
-          <article class="stat-card"><div class="stat-top"><span>Movies</span><span class="stat-icon">▣</span></div><strong>0</strong><small>Published in your store</small></article>
-          <article class="stat-card"><div class="stat-top"><span>Customers</span><span class="stat-icon">♙</span></div><strong>0</strong><small>Registered customers</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Published movies</span><span class="stat-icon">▣</span></div><strong id="statMovies">—</strong><small>Visible in the storefront</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Total movies</span><span class="stat-icon">▤</span></div><strong id="statAllMovies">—</strong><small>All catalogue records</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Orders</span><span class="stat-icon">↗</span></div><strong id="statOrders">—</strong><small>Recorded orders</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Paid orders</span><span class="stat-icon">✓</span></div><strong id="statPaid">—</strong><small>Marked paid in database</small></article>
         </div>
-
-        <div class="content-grid">
-          <section class="panel sales-panel"><div class="panel-heading"><div><h2>Sales overview</h2><p>Your revenue performance</p></div><span class="panel-period">30 DAYS</span></div><div class="chart-empty"><div class="chart-symbol">▥</div><strong>No sales data yet</strong><p>Connect the payment system to start tracking sales.</p></div></section>
-          <section class="panel quick-panel"><div class="panel-heading"><div><h2>Quick actions</h2><p>Manage your storefront</p></div></div><a class="quick-action" href="#movies" data-section="movies"><span class="quick-icon">＋</span><span><strong>Add a movie</strong><small>Upload a film to your catalogue</small></span><b>→</b></a><a class="quick-action" href="#orders" data-section="orders"><span class="quick-icon">▤</span><span><strong>View orders</strong><small>Review customer purchases</small></span><b>→</b></a><a class="quick-action" href="#settings" data-section="settings"><span class="quick-icon">⚙</span><span><strong>Store settings</strong><small>Configure your store</small></span><b>→</b></a></section>
-        </div>
-
-        <section class="panel recent-panel" id="orders"><div class="panel-heading"><div><h2>Recent orders</h2><p>Latest customer transactions</p></div><a href="#orders" class="subtle-link">View all →</a></div><div class="table-wrap"><table><thead><tr><th>ORDER</th><th>CUSTOMER</th><th>MOVIE</th><th>AMOUNT</th><th>STATUS</th></tr></thead><tbody><tr><td colspan="5" class="table-empty">No orders to display. Real orders will appear here after payment integration.</td></tr></tbody></table></div></section>
-        <div class="footer-note">MY MOVIE STORE ADMIN <span>·</span> DASHBOARD PREVIEW</div>
+        <section class="panel recent-panel">
+          <div class="panel-heading"><div><h2>Recent orders</h2><p>Latest records in your database</p></div><a href="#orders" data-section="orders" class="subtle-link">View all →</a></div>
+          <div class="table-wrap"><table><thead><tr><th>ORDER</th><th>CUSTOMER ID</th><th>MOVIE</th><th>AMOUNT</th><th>STATUS</th><th>DATE</th></tr></thead><tbody id="recentOrdersBody"><tr><td colspan="6" class="table-empty">Loading orders…</td></tr></tbody></table></div>
+        </section>
       </section>
 
-      <section class="page-content placeholder-page" id="otherPage" hidden><div class="page-heading"><div><div class="overline">STORE MANAGEMENT</div><h1 id="otherTitle">Movies</h1><p id="otherDescription">Manage your store content.</p></div></div><div class="panel placeholder-panel"><div class="chart-symbol">✦</div><h2 id="placeholderTitle">Movie management is coming next</h2><p>This section will become functional after we connect secure admin authentication, the database and private movie storage.</p><button class="primary-button" id="backOverview">Back to overview</button></div></section>
+      <section class="page-content" id="moviesPage" hidden>
+        <div class="page-heading"><div><div class="overline">CATALOGUE MANAGEMENT</div><h1>Your <em>movies.</em></h1><p>Add films, upload artwork and manage publication.</p></div><button class="primary-button" id="addMovieButton">＋ Add movie</button></div>
+        <div class="toolbar"><input id="movieSearch" type="search" placeholder="Search movies by title…"><button class="date-button" id="reloadMovies">↻ Refresh</button></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>MOVIE</th><th>CATEGORY</th><th>PRICE</th><th>STATUS</th><th>ADDED</th><th>ACTIONS</th></tr></thead><tbody id="moviesBody"><tr><td colspan="6" class="table-empty">Loading movies…</td></tr></tbody></table></div></div>
+      </section>
+
+      <section class="page-content" id="ordersPage" hidden>
+        <div class="page-heading"><div><div class="overline">CUSTOMER ACTIVITY</div><h1>Store <em>orders.</em></h1><p>Review order records and their current status.</p></div><button class="date-button" id="reloadOrders">↻ Refresh</button></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>ORDER ID</th><th>CUSTOMER ID</th><th>MOVIE</th><th>AMOUNT</th><th>PAYMENT METHOD</th><th>STATUS</th><th>DATE</th></tr></thead><tbody id="ordersBody"><tr><td colspan="7" class="table-empty">Loading orders…</td></tr></tbody></table></div></div>
+      </section>
+
+      <section class="page-content" id="customersPage" hidden>
+        <div class="page-heading"><div><div class="overline">CUSTOMER RECORDS</div><h1>Your <em>customers.</em></h1><p>Customer IDs are shown from recorded orders.</p></div></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>CUSTOMER ID</th><th>ORDERS</th><th>TOTAL SPEND</th></tr></thead><tbody id="customersBody"><tr><td colspan="3" class="table-empty">Loading customer records…</td></tr></tbody></table></div></div>
+        <p class="muted small-note">Customer names and email addresses are not stored in the current orders table, so this view groups orders by customer ID only.</p>
+      </section>
+
+      <section class="page-content" id="paymentsPage" hidden>
+        <div class="page-heading"><div><div class="overline">PAYMENT STATUS</div><h1>Payment <em>records.</em></h1><p>Payment integration has intentionally been left disconnected.</p></div></div>
+        <div class="notice"><span class="notice-icon">i</span><div><strong>No payment gateway connected</strong><p>Orders can be reviewed here, but this dashboard does not collect payments or mark orders as paid. We will connect a provider after the catalogue is working.</p></div></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>ORDER</th><th>REFERENCE</th><th>METHOD</th><th>AMOUNT</th><th>STATUS</th></tr></thead><tbody id="paymentsBody"><tr><td colspan="5" class="table-empty">Loading payment records…</td></tr></tbody></table></div></div>
+      </section>
+      <p class="footer-note">MY MOVIE STORE ADMIN <span>·</span> LIVE DATABASE</p>
     </main>
   </div>
+
+  <div class="modal-backdrop" id="movieModal" hidden>
+    <form class="movie-form panel" id="movieForm">
+      <div class="modal-heading"><div><div class="overline">CATALOGUE EDITOR</div><h2 id="movieFormTitle">Add a movie</h2></div><button type="button" class="close-button" id="closeMovieModal" aria-label="Close">×</button></div>
+      <input type="hidden" id="movieId">
+      <label>Movie title<input id="movieTitle" required maxlength="150" placeholder="Enter movie title"></label>
+      <div class="form-grid">
+        <label>Category<select id="movieCategory"><option>Drama</option><option>Action</option><option>Comedy</option><option>Romance</option><option>Documentary</option><option>Short Film</option><option>Other</option></select></label>
+        <label>Price (TZS)<input id="moviePrice" type="number" min="0" step="1" required value="5000"></label>
+        <label>Release year<input id="movieYear" type="number" min="1888" max="2200" placeholder="2026"></label>
+        <label>Duration (minutes)<input id="movieDuration" type="number" min="1" step="1" placeholder="90"></label>
+      </div>
+      <label>Description<textarea id="movieDescription" rows="3" placeholder="Short description of the film"></textarea></label>
+      <label>Poster image <span class="muted">(JPG, PNG or WebP)</span><input id="moviePoster" type="file" accept="image/jpeg,image/png,image/webp"></label>
+      <label>Movie file <span class="muted">(MP4, WebM or ZIP; max 2 GB)</span><input id="movieFile" type="file" accept="video/mp4,video/webm,application/zip"></label>
+      <label class="check-label"><input id="moviePublished" type="checkbox"> Publish this movie in the public store</label>
+      <p class="form-message" id="movieMessage" role="status"></p>
+      <div class="modal-actions"><button type="button" class="date-button" id="cancelMovie">Cancel</button><button type="submit" class="primary-button" id="saveMovieButton">Save movie</button></div>
+    </form>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.min.js"></script>
   <script src="dashboard.js"></script>
 </body>
 </html>
