@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#090909">
-  <meta name="description" content="Discover independent movies and short films at My Movie Store.">
-  <title>My Movie Store — Films worth keeping</title>
+  <meta name="description" content="Nunua na pakua filamu zako uzipendazo.">
+  <title>My Movie Store — Filamu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
@@ -13,67 +13,67 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#home" aria-label="My Movie Store home"><span class="brand-mark">M</span><span>MY<span class="brand-accent">MOVIE</span></span></a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <a class="brand" href="#home" aria-label="My Movie Store mwanzo"><span class="brand-mark">M</span><span>MY<span class="brand-accent">MOVIE</span></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Fungua menyu" aria-expanded="false">☰</button>
     <nav class="main-nav" id="mainNav">
-      <a class="nav-link active" href="#home">Home</a>
-      <a class="nav-link" href="#movies">Explore films</a>
-      <a class="nav-link" href="#categories">Categories</a>
+      <a class="nav-link active" href="#home">Mwanzo</a>
+      <a class="nav-link" href="#movies">Filamu</a>
+      <a class="nav-link" href="#categories">Aina</a>
     </nav>
-    <a class="header-cta" href="#movies">Browse films <span>↗</span></a>
+    <a class="header-cta" href="#movies">Tazama filamu <span>↗</span></a>
   </header>
 
   <main>
     <section class="hero" id="home">
       <div class="hero-backdrop"></div>
       <div class="hero-content">
-        <div class="eyebrow"><span class="eyebrow-line"></span> THE HOME OF GREAT STORIES</div>
-        <h1>Stories that<br><em>stay with you.</em></h1>
-        <p>Discover independent movies and unforgettable short films. Find your next favourite story and keep it in your collection.</p>
+        <div class="eyebrow"><span class="eyebrow-line"></span> FILAMU ZAKO UNAZOPENDA</div>
+        <h1>Filamu nzuri<br><em>kwa bei nafuu.</em></h1>
+        <p>Chagua filamu, lipia na upakue.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#movies">Explore the collection <span>→</span></a>
-          <span class="hero-note"><span class="live-dot"></span> New stories, added regularly</span>
+          <a class="button button-primary" href="#movies">Tazama filamu <span>→</span></a>
+          <span class="hero-note"><span class="live-dot"></span> Filamu mpya huongezwa</span>
         </div>
       </div>
-      <div class="hero-bottom"><span>INDEPENDENT FILM · SHORT FILMS · CINEMA</span><span>01 — DISCOVER</span></div>
+      <div class="hero-bottom"><span>FILAMU · TAMTHILIA · SHORT FILMS</span><span>01 — TAFAKARI</span></div>
     </section>
 
-    <section class="trust-strip" aria-label="Store features">
-      <div><span class="trust-icon">✦</span><span>Curated stories</span></div>
-      <div><span class="trust-icon">↓</span><span>Download your purchases</span></div>
-      <div><span class="trust-icon">TZ</span><span>Prices in Tanzanian shillings</span></div>
+    <section class="trust-strip" aria-label="Huduma za duka">
+      <div><span class="trust-icon">✦</span><span>Filamu bora</span></div>
+      <div><span class="trust-icon">↓</span><span>Pakua ulizonunua</span></div>
+      <div><span class="trust-icon">TZ</span><span>Bei kwa Shilingi</span></div>
     </section>
 
     <section class="catalog section-wrap" id="movies">
       <div class="section-heading">
-        <div><div class="eyebrow"><span class="eyebrow-line"></span> THE COLLECTION</div><h2>Find your <em>next film.</em></h2></div>
-        <p>Good stories deserve to be discovered.</p>
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> FILAMU ZETU</div><h2>Chagua <em>filamu.</em></h2></div>
+        <p>Filamu zilizochapishwa</p>
       </div>
       <div class="catalog-tools">
         <div class="category-list" id="categories">
-          <button class="filter-chip selected" data-category="All">All films</button>
-          <button class="filter-chip" data-category="Drama">Drama</button>
-          <button class="filter-chip" data-category="Action">Action</button>
-          <button class="filter-chip" data-category="Comedy">Comedy</button>
-          <button class="filter-chip" data-category="Short Film">Short films</button>
+          <button class="filter-chip selected" data-category="All">Zote</button>
+          <button class="filter-chip" data-category="Drama">Tamthilia</button>
+          <button class="filter-chip" data-category="Action">Vita</button>
+          <button class="filter-chip" data-category="Comedy">Vichekesho</button>
+          <button class="filter-chip" data-category="Short Film">Fupi</button>
         </div>
-        <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search films..." aria-label="Search films"></label>
+        <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Tafuta filamu..." aria-label="Tafuta filamu"></label>
       </div>
       <div class="movie-grid" id="movieGrid" aria-live="polite"></div>
-      <div class="empty-state" id="emptyState" hidden>No films match your search. Try another title or category.</div>
-      <p class="catalog-disclaimer">Only films published by My Movie Store are shown here.</p>
+      <div class="empty-state" id="emptyState" hidden>Hakuna filamu iliyopatikana.</div>
+      <p class="catalog-disclaimer"></p>
     </section>
 
     <section class="seller-banner">
-      <div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT FAVOURITE STORY</div><h2>Independent stories.<br><em>Worth keeping.</em></h2></div>
-      <a class="button button-light" href="#movies">Explore films <span>→</span></a>
+      <div><div class="eyebrow"><span class="eyebrow-line"></span> FILAMU ZAKO ZINAKUSUBIRI</div><h2>Filamu nzuri.<br><em>Burudani yako.</em></h2></div>
+      <a class="button button-light" href="#movies">Tazama filamu <span>→</span></a>
     </section>
   </main>
 
   <footer class="site-footer">
     <a class="brand" href="#home"><span class="brand-mark">M</span><span>MY<span class="brand-accent">MOVIE</span></span></a>
-    <p>Stories worth keeping. © <span id="year"></span> My Movie Store.</p>
-    <a href="#home" class="back-top">Back to top ↑</a>
+    <p>© <span id="year"></span> My Movie Store.</p>
+    <a href="#home" class="back-top">Rudi juu ↑</a>
   </footer>
   <script src="script.js"></script>
 </body>
